@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 
 export abstract class Configuration {
   constructor() {
@@ -12,5 +12,9 @@ export abstract class Configuration {
     }
 
     return variable;
+  }
+
+  protected getPort() {
+    return this.getEnviroment("PORT");
   }
 }

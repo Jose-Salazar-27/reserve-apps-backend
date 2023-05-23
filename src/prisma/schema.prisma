@@ -1,5 +1,5 @@
 datasource db {
-    url      = env("DATABASE_URL")
+    url      = env("POSTGRES_URL")
     provider = "postgresql"
 }
 
@@ -8,8 +8,8 @@ generator client {
 }
 
 model Order {
-    id         Int      @id @default(autoincrement())
-    createdAt  DateTime @default(now())
+    id         Int       @id @default(autoincrement())
+    createdAt  DateTime  @default(now())
     owner      String
     products   Product[]
     product_id Int
@@ -17,10 +17,10 @@ model Order {
 }
 
 model Product {
-  id       Int    @id @default(autoincrement())
-  name     String
-  price    Int
-  quantity Int
-  order    Order? @relation(fields: [orderId], references: [id])
-  orderId  Int?
+    id       Int    @id @default(autoincrement())
+    name     String
+    price    Int
+    quantity Int
+    order    Order? @relation(fields: [orderId], references: [id])
+    orderId  Int?
 }
