@@ -1,10 +1,11 @@
-import express, { Application } from "express";
-import cors from "cors";
-import { Server as HttpType } from "http";
-import { Configuration } from "./config/server-config";
-import { PrismaClient } from "./prisma/client";
+import express, { Application } from 'express';
+import cors from 'cors';
+import { Server as HttpType } from 'http';
+import { ConfigService } from './config/server-config';
+import { prisma } from './prisma/client';
+import { ErrorHandler } from './shared/exceptions/error-handler';
 
-export class Server extends Configuration {
+export class Server extends ConfigService {
   private app: Application;
   private server?: HttpType;
   constructor() {
@@ -13,6 +14,8 @@ export class Server extends Configuration {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cors());
+
+    this.app.use(ErrorHandler);
   }
 
   public async start(): Promise<void> {
@@ -21,13 +24,13 @@ export class Server extends Configuration {
         console.log(`Server is running on port ${super.getPort()} `);
       });
 
-      await PrismaClient.useInstance()
-        .connect()
+      await prisma
+        .$connect()
         .then(() => {
-          console.log("DB connection was succesfulled");
+          console.log('DB connection was succesfulled');
         })
         .catch((err) => {
-          console.log("ERROR CONNECTING WITH THE DB", err);
+          console.log('ERROR CONNECTING WITH THE DB', err);
         });
     }
   }
