@@ -1,8 +1,8 @@
 import type { Config } from "jest";
 
-const config: Config = {
-  verbose: true,
-  detectLeaks: true,
+export default async (): Promise<Config> => {
+  return {
+    verbose: true,
+    detectLeaks: true,
+  };
 };
-
-export default config;
