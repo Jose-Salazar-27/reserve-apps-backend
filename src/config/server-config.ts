@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 
-export abstract class Configuration {
+export abstract class ConfigService {
   constructor() {
     dotenv.config();
   }
